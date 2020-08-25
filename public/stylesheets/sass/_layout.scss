@@ -1,0 +1,11 @@
+.app-wrap {
+  background-color: #000;
+  grid-column: 2/3;
+  grid-row: 2/3;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
+
+  grid-template-rows: 1fr 1fr 2fr 1fr 1fr;
+}

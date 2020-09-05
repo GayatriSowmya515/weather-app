@@ -38,7 +38,7 @@ body {
   font-size: 2rem;
   line-height: 1.6;
   color: #fff;
-  padding: 3rem;
+ // padding: 3rem;
   box-sizing: border-box;
   background-color: var(--color-blue-dark);
 }
@@ -47,7 +47,7 @@ body {
   display: grid;
   justify-content: center;
   align-items: center;
-  grid-template-columns: 3fr 40rem 3fr;
+  grid-template-columns: 3fr 3.5fr 3fr;
 
   height: 100vh;
 }

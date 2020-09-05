@@ -1,31 +1,26 @@
 <%-include("partials/header")%>
-    <div class="app-wrap">
-      <header>
-        <form action='/results' method='GET'>
-        <input
-          type="text"
-          name='city'
-          autocomplete="off"
-          class="search-box"
-          placeholder="Search for a city....."
-        />
-      <button class='btn' type="submit">Search</button></form>
-      </header>
-      <main>
-        <%if(error == null ){%>
-        <section class="location">
-          <div class="city"><%=data.name%></div>
-          <div class="date">Tuesday 25 August 2020</div>
-        </section>
-        <div class="current">
-          <div class="temp"><%=data.main.temp -273%> <span&#8451;C</span></div>
-          <div class="weather"><%=data.weather.description%></div>
-          <div class="hi-low"><%=data.main.temp_min -273%>&#8451;/<%=data.main.temp_max -273%>&#8451;</div>
-        </div>
-        <%}else{%>
-          <div class='city'><%=error%></div>
-        <%}%>
-      </main>
+<div class="app-wrap">
+
+
+  <%if(error == null ){%>
+
+
+  <div class="temp"><%=parseInt(data.main.temp -273)%> <span>&#8451; </span>
+  </div>
+  <div class="now">
+    <div class="weather"><%=data.weather[0].description%></div>
+    <div class="hi-low"><%=parseInt(data.main.temp_min -273)%>&#8451;/<%=parseInt(data.main.temp_max -273)%>&#8451;
+    </div>
+    <div class="city"><%=data.name%></div>
+  </div>
+  <%}else{%>
+  <div class='city'><%=error%></div>
+  <%}%>
+
+  <form action='/results' method='GET' class='search'>
+    <input type="text" name='city' autocomplete="off" class="search-box" placeholder="Search for a city....." />
+    <button class='btn' type="submit">Search</button></form>
+
     </div>
     <!--<script src="app.js"></script>-->
 

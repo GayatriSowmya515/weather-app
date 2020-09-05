@@ -3,6 +3,11 @@ var app = express();
 
 var request = require('request');
 var bodyParser = require('body-parser');
+const date = require('date-and-time');
+
+const now = new Date();
+console.log(date.format(now, 'ddd, MMM DD YYYY'));
+console.log(date);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 

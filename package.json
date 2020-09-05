@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch:sass": "node-sass sass/main.scss css/style.css -w",
+    "watch:sass": "node-sass public/stylesheets/sass/main.scss public/stylesheets/css/style.css -w",
     "devserver": "live-server --browser=firefox",
     "start": "npm-run-all --parallel devserver watch:sass",
-    "compile:sass": "node-sass sass/main.scss css/style.comp.css",
-    "prefix:css": "postcss --use autoprefixer -b \"last 10 versions\" css/style.comp.css -o css/style.prefix.css",
-    "compress:css": "node-sass css/style.prefix.css css/style.css --output-style compressed",
+    "compile:sass": "node-sass public/stylesheets/sass/main.scss public/stylesheets/css/style.comp.css",
+    "prefix:css": "postcss --use autoprefixer -b \"last 10 versions\" public/stylesheets/css/style.comp.css -o public/stylesheets/css/style.prefix.css",
+    "compress:css": "node-sass public/stylesheets/css/style.prefix.css public/stylesheets/css/style.css --output-style compressed",
     "build:css": "npm-run-all compile:sass prefix:css compress:css"
   },
   "author": "Jonas",
@@ -18,11 +18,13 @@
     "autoprefixer": "^7.1.4",
     "concat": "^1.0.3",
     "node-sass": "^4.5.3",
+    "nodemon": "^2.0.4",
     "npm-run-all": "^4.1.1",
     "postcss-cli": "^7.1.1"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
+    "date-and-time": "^0.14.1",
     "devserver": "^0.2.5",
     "ejs": "^3.1.5",
     "express": "^4.17.1",

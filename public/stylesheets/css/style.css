@@ -6,13 +6,14 @@
   --color-grey-light-2: #f4f2f2;
   --color-grey-light-3: #f0eeee;
   --color-grey-light-4: #ccc;
-  --color-blue-dark: #00001f;
+  --color-blue-dark:#0277BD;
+  --color-blue-dark-1:#01579B;
   --color-blue-light: #039be5;
   --color-pink-dark: #e91e63;
   --color-grey-dark-1: #333;
   --color-grey-dark-2: #777;
   --color-grey-dark-3: #999;
-  --shadow-dark: 0 2rem 6rem rgba(0, 0, 0, 0.3);
+  --shadow-dark: 0 2rem 6rem rgba(0, 0, 0, 0.5);
   --shadow-light: 0 2rem 5rem rgba(0, 0, 0, 0.06);
   --line: 1px solid var(--color-grey-light-2); }
 
@@ -33,17 +34,19 @@ body {
   line-height: 1.6;
   color: #fff;
   box-sizing: border-box;
-  background-color: var(--color-blue-dark); }
+  background: linear-gradient(to right bottom, var(--color-blue-dark), var(--color-blue-dark-1)); }
 
 .container {
   display: grid;
   justify-content: center;
   align-items: center;
-  grid-template-columns: 3fr 3.5fr 3fr;
+  grid-template-columns: 3fr 2.4fr 3fr;
   height: 100vh; }
 
 .app-wrap {
   grid-column: 2/3;
+  border-radius: 0.8rem;
+  box-shadow: var(--shadow-dark);
   background-image: url("/stylesheets/img/weather.gif");
   top: 0;
   height: 100%;
@@ -53,7 +56,22 @@ body {
   display: grid;
   justify-items: center;
   height: 95vh;
-  grid-template-rows: 3fr 1fr 2fr 1fr 1fr; }
+  grid-template-rows: 3fr 2fr 3fr 2fr; }
+  .app-wrap .temp {
+    font-size: 10rem;
+    grid-row: 1/2;
+    display: inline;
+    position: relative; }
+    .app-wrap .temp-celsius {
+      top: 3.6rem;
+      position: absolute;
+      font-size: 3rem; }
+  .app-wrap .now {
+    grid-row: 2/3; }
+    .app-wrap .now .city {
+      top: 0;
+      text-transform: uppercase;
+      font-size: 2.5rem; }
 
 .search {
   grid-row: 4/5; }
@@ -76,17 +94,3 @@ body {
     opacity: 0.9;
     overflow: hidden;
 }*/
-.temp {
-  grid-row: 1/2;
-  justify-self: center;
-  font-size: 10rem; }
-
-.now {
-  grid-row: 2/3; }
-  .now .weather {
-    justify-self: center; }
-  .now .hi-low {
-    justify-self: center; }
-  .now .city {
-    justify-self: center;
-    align-content: center; }

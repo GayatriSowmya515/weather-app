@@ -1,16 +1,12 @@
 :root {
-  --color-primary: #eb2f64;
-  --color-primary-light: #ff3366;
-  --color-primary-dark: #ba265d;
   --color-grey-light-1: #faf9f9;
   --color-grey-light-2: #f4f2f2;
   --color-grey-light-3: #f0eeee;
   --color-grey-light-4: #ccc;
-  --color-blue-dark:#0277BD;//#00001f;
+  --color-blue-dark:#0277BD;
   --color-blue-dark-2:#00275a;
   --color-blue-dark-1:#01579B;
   --color-blue-light: #039be5;
-  --color-pink-dark: #e91e63;
 
   --color-grey-dark-1: #333;
   --color-grey-dark-2: #777;
@@ -51,7 +47,6 @@ body {
     var(--color-blue-dark),
     var(--color-blue-dark-1)
   );
-  //background-color: var(--color-blue-dark);
 }
 
 .container {
@@ -62,6 +57,5 @@ body {
   @media only screen and (max-width: $bp-small) {
     grid-template-columns: 1fr;
   }
-
   height: 100vh;
 }

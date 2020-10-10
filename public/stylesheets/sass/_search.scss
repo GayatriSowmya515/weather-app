@@ -1,8 +1,7 @@
 .S{
   grid-row: 4/5;
-  
+
   &-search{
-   
     width: 100%;
     padding: 0px 10px;
     height: 4rem;
@@ -32,14 +31,11 @@
 }
 
 .S1{
-  
   grid-row: 1/2;
-  
-  
 
   &-head{
-    
     margin: 3rem ;
+    font-weight: 400;
     
     @media only screen and (max-width: $bp-small) {
       font-size: 1.6rem;
@@ -51,7 +47,6 @@
   }
 
   &-search{
-   
     width: 100%;
     padding: 0px 10px;
     height: 4rem;
@@ -61,12 +56,12 @@
     &-box {
       grid-column: 2/3;
       padding:0 1.4rem;
-    
       border: none;
       border-radius: 5px;
       height: 100%;
       width: 90%;      
     }
+
     &-btn{
       grid-column: 3/4;
       border: none;
@@ -79,19 +74,6 @@
     }
   }
 }
-
-
-/*
-.bg-video{
-  position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    z-index: -1;
-    opacity: 0.9;
-    overflow: hidden;
-}*/
 
 
 

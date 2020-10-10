@@ -31,4 +31,4 @@ Install NodeJS and npm to your machine
   ```
 ## License
 
-  Node Js Weather App is open-sourced software licensed under the [MIT license](LICENSE).
+weather-app is open-sourced software licensed under the [MIT license](LICENSE).

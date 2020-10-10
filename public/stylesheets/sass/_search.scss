@@ -24,8 +24,14 @@
       width: 6rem;
       border-radius: 1rem;
       height: 80%;
+      box-shadow: var(--shadow-dark);
       background-color: var(--color-blue-light);
       color: white;
+      cursor: pointer;
+      
+      &:hover{
+        background-color: var(--color-blue-dark);
+      }
     }
   }
 }

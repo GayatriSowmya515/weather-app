@@ -1,20 +1,23 @@
 <%-include("partials/header")%>
-<div class="app-wrap">
+<div class="app">
 
   <%if(error == null ){%>
 
-  <div class="temp">
-    <span class="temp-temp"><%=parseInt(data.main.temp -273)%></span>
-    <span class="temp-celsius">&#8451; </span>
+  <div class="app-temp">
+    <span class="app-temp-temp"><%=parseInt(data.main.temp -273)%></span>
+    <span class="app-temp-celsius">&#8451; </span>
   </div>
 
   <div class="now">
     <div class="city">
-      <%=data.name%>
+      <div class="city-icon"><img src='/stylesheets/img/location.png' alt=""></div>
+      <div class="city-name"><%=data.name%></div>
     </div>
 
     <div class="weather">
-      <%=data.weather[0].description%>
+      <div class="weather-icon"><img src='/stylesheets/img/weather.png' alt=""></div>
+      <div class="weather-disc"><%=data.weather[0].description%></div>
+
     </div>
   </div>
 
@@ -23,11 +26,14 @@
     <%=error%>
   </div>
   <%}%>
+  <div class="S">
+    <form action='/results' method='GET' class='S-search'>
+        <input type="text" name='city' autocomplete="off" class="S-search-box" placeholder="Search for a city" />
+        <button class='S-search-btn' type="submit">Search</button>
+    </form>
+  </div>
 
-  <form action='/results' method='GET' class='search'>
-      <input type="text" name='city' autocomplete="off" class="search-box" placeholder="Search for a city....." />
-      <button class='btn' type="submit">Search</button>
-  </form>
+  
 
 </div>
     <!--<script src="app.js"></script>-->

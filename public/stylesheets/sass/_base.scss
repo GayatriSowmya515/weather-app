@@ -7,6 +7,7 @@
   --color-grey-light-3: #f0eeee;
   --color-grey-light-4: #ccc;
   --color-blue-dark:#0277BD;//#00001f;
+  --color-blue-dark-2:#00275a;
   --color-blue-dark-1:#01579B;
   --color-blue-light: #039be5;
   --color-pink-dark: #e91e63;
@@ -15,7 +16,7 @@
   --color-grey-dark-2: #777;
   --color-grey-dark-3: #999;
 
-  --shadow-dark: 0 2rem 6rem rgba(0, 0, 0, 0.5);
+  --shadow-dark: 0 2rem 6rem rgba(0, 0, 0, 0.6);
   --shadow-light: 0 2rem 5rem rgba(0, 0, 0, 0.06);
 
   --line: 1px solid var(--color-grey-light-2);
@@ -29,9 +30,13 @@
   box-sizing: inherit;
 }
 
+
+$bp-small: 25em; //400px
+
 html {
   //This defines what 1rem is
   font-size: 62.5%;
+  
 }
 body {
   font-family: 'Open Sans', sans-serif;
@@ -53,7 +58,10 @@ body {
   display: grid;
   justify-content: center;
   align-items: center;
-  grid-template-columns: 3fr 2.4fr 3fr;
+  grid-template-columns: auto 31.5rem min-content auto;
+  @media only screen and (max-width: $bp-small) {
+    grid-template-columns: 1fr;
+  }
 
   height: 100vh;
 }

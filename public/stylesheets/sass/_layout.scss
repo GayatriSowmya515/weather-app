@@ -1,27 +1,26 @@
-.app-wrap {
+.app {
   //<img src="/stylesheets/img/weather.gif" alt="weather" class='bg-video'>
   grid-column: 2/3;
+  
   border-radius: 0.8rem;
   box-shadow: var(--shadow-dark);
   background-image: url('/stylesheets/img/weather.gif');
-  
- 
-  //grid-row: 2/3;
-  top:0;
- // position: absolute;
-    height: 100%;
-    width: 100%;
-    opacity: 0.9;
-    overflow: hidden;
+  width: 100%;
+  opacity: 0.9;
+  overflow: hidden;
     
 
   display: grid;
   justify-items: center;
   height: 95vh;
+  @media only screen and (max-width: $bp-small) {
+    grid-columns: 1/2;
+    height: 100vh;
+  }
 
-  grid-template-rows: 3fr 2fr 3fr 2fr;
+  grid-template-rows: 15rem 10rem auto 12rem;
 
-  .temp{
+  &-temp{
     font-size: 10rem;
     grid-row: 1/2;
     display: inline;
@@ -46,9 +45,29 @@
       top:0;
       text-transform: uppercase;
       font-size: 2.5rem;
+      display: flex;
+      flex-direction: row;
+      &-icon{
+        
+
+      }
+      &-name{
+        text-transform: capitalize;
+        margin-left: 1rem;
+
+      }
     }
     .weather{
-      //position:absolute;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      &-disc{
+        text-transform: capitalize;
+        margin-left: 1rem;
+        margin-bottom: .8rem;
+      
+      }
     }
   }
 }

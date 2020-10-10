@@ -1,10 +1,18 @@
 <%-include("partials/header")%>
-<div class="app-wrap">
+<div class="app">
 
-  <form action="/results" method="GET">
-    <input type="text" name="city" autocomplete="off" class="search-box" placeholder="Search for a city....." />
-    <button class="btn" type="submit">Search</button>
-  </form>
+
+  <div class="S1">
+    <div class="S1-head">
+      <h1>Weather App</h1>
+    </div>
+    <form action="/results" method="GET" class='S1-search'>
+      <input type="text" name="city" autocomplete="off" class="S1-search-box" placeholder="Search for a city" />
+      <button class="S1-search-btn" type="submit">Search</button>
+    </form>
+  </div>
+
+
 
 </div>
 <!--<script src="app.js"></script>-->

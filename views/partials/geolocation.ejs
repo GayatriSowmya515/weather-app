@@ -1,5 +1,22 @@
 <script>
   (function () {
+    function postToResults(fields) {
+      var form = document.createElement('form');
+      form.method = 'POST';
+      form.action = '/results';
+
+      Object.keys(fields).forEach(function (name) {
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = fields[name];
+        form.appendChild(input);
+      });
+
+      document.body.appendChild(form);
+      form.submit();
+    }
+
     function useMyLocation() {
       if (!navigator.geolocation) {
         alert('Geolocation is not supported by your browser.');
@@ -14,9 +31,10 @@
 
       navigator.geolocation.getCurrentPosition(
         function (position) {
-          var lat = position.coords.latitude;
-          var lon = position.coords.longitude;
-          window.location.href = '/results?lat=' + lat + '&lon=' + lon;
+          postToResults({
+            lat: position.coords.latitude,
+            lon: position.coords.longitude,
+          });
         },
         function () {
           buttons.forEach(function (btn) {

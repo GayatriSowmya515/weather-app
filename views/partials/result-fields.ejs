@@ -1,0 +1,6 @@
+<% if (resultParams.city) { %>
+<input type="hidden" name="city" value="<%= resultParams.city %>" />
+<% } else { %>
+<input type="hidden" name="lat" value="<%= resultParams.lat %>" />
+<input type="hidden" name="lon" value="<%= resultParams.lon %>" />
+<% } %>

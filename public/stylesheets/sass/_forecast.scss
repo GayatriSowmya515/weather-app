@@ -1,8 +1,18 @@
+.forecast-form {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .forecast-link {
   color: #fff;
   font-size: 1.6rem;
   text-decoration: underline;
   cursor: pointer;
+  background: none;
+  border: none;
+  font-family: inherit;
+  padding: 0;
 
   &:hover {
     color: var(--color-grey-light-1);

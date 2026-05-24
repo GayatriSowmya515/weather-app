@@ -9,6 +9,7 @@ var {
   getQueryForResults,
 } = require('./services/weather');
 
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
@@ -28,13 +29,13 @@ function parseCoords(lat, lon) {
   return { lat: latitude, lon: longitude };
 }
 
-function getLocationParams(query) {
-  const city = typeof query.city === 'string' ? query.city.trim() : '';
+function getLocationParams(body) {
+  const city = typeof body.city === 'string' ? body.city.trim() : '';
   if (city) {
     return { city };
   }
 
-  const coords = parseCoords(query.lat, query.lon);
+  const coords = parseCoords(body.lat, body.lon);
   if (coords) {
     return coords;
   }
@@ -42,17 +43,8 @@ function getLocationParams(query) {
   return null;
 }
 
-function buildResultsQueryString(params, showForecast) {
-  const parts = [];
-  if (params.city) {
-    parts.push(`city=${encodeURIComponent(params.city)}`);
-  } else {
-    parts.push(`lat=${params.lat}`, `lon=${params.lon}`);
-  }
-  if (showForecast) {
-    parts.push('forecast=1');
-  }
-  return parts.join('&');
+function showForecastFromBody(body) {
+  return body.forecast === '1' || body.forecast === 1;
 }
 
 function renderSearchError(res, message) {
@@ -63,9 +55,9 @@ app.get('/', function (req, res) {
   res.render('search', { error: null });
 });
 
-app.get('/results', async function (req, res) {
-  const location = getLocationParams(req.query);
-  const showForecast = req.query.forecast === '1';
+app.post('/results', async function (req, res) {
+  const location = getLocationParams(req.body);
+  const showForecast = showForecastFromBody(req.body);
 
   if (!location) {
     return renderSearchError(res, 'Please enter a city or use your location.');
@@ -80,13 +72,11 @@ app.get('/results', async function (req, res) {
 
   try {
     const data = await getCurrentWeather(location);
-    const queryParams = getQueryForResults(data, req.query);
-    const resultsQuery = buildResultsQueryString(queryParams, false);
-    const forecastQuery = buildResultsQueryString(queryParams, true);
+    const resultParams = getQueryForResults(data, req.body);
 
     let forecastDays = null;
     if (showForecast) {
-      const forecastData = await getForecast(queryParams);
+      const forecastData = await getForecast(resultParams);
       forecastDays = aggregateFiveDayForecast(forecastData);
     }
 
@@ -95,9 +85,8 @@ app.get('/results', async function (req, res) {
       error: null,
       showForecast,
       forecastDays,
-      resultsQuery,
-      forecastQuery,
-      searchCity: queryParams.city || data.name,
+      resultParams,
+      searchCity: resultParams.city || data.name,
     });
   } catch (err) {
     let message = 'Could not load weather. Please try again.';

@@ -50,9 +50,11 @@
   </section>
   <% } else if (!showForecast) { %>
   <div class="forecast-toggle">
-    <a class="forecast-link" href="/results?<%= forecastQuery %>">
-      Want to know the forecast?
-    </a>
+    <form action="/results" method="POST" class="forecast-form">
+      <%-include("partials/result-fields")%>
+      <input type="hidden" name="forecast" value="1" />
+      <button type="submit" class="forecast-link">Want to know the forecast?</button>
+    </form>
   </div>
   <% } %>
 
@@ -62,7 +64,7 @@
     <button type="button" class="S-location-btn" data-use-location>
       Use my location
     </button>
-    <form action="/results" method="GET" class="S-search">
+    <form action="/results" method="POST" class="S-search">
       <input
         type="text"
         name="city"

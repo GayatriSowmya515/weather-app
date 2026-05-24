@@ -28,6 +28,7 @@
 
 
 $bp-small: 25em; //400px
+$app-width: 40rem;
 
 html {
   //This defines what 1rem is
@@ -53,9 +54,10 @@ body {
   display: grid;
   justify-content: center;
   align-items: center;
-  grid-template-columns: auto 31.5rem min-content auto;
+  grid-template-columns: auto $app-width min-content auto;
   @media only screen and (max-width: $bp-small) {
     grid-template-columns: 1fr;
+    padding: 0 1.5rem;
   }
   height: 100vh;
 }

@@ -1,41 +1,81 @@
 <%-include("partials/header")%>
-<div class="app">
+<div class="app app--result<%= showForecast ? ' app--with-forecast' : '' %>">
 
-  <%if(error == null ){%>
+  <% if (error) { %>
+  <div class="app-message app-message--error"><%= error %></div>
+  <% } else { %>
 
   <div class="app-temp">
-    <span class="app-temp-temp"><%=parseInt(data.main.temp -273)%></span>
-    <span class="app-temp-celsius">&#8451; </span>
+    <span class="app-temp-temp"><%= Math.round(data.main.temp) %></span>
+    <span class="app-temp-celsius">&#8451;</span>
   </div>
 
   <div class="now">
     <div class="city">
-      <div class="city-icon"><img src='/stylesheets/img/location.png' alt=""></div>
-      <div class="city-name"><%=data.name%></div>
+      <div class="city-icon"><img src="/stylesheets/img/location.png" alt="Location" /></div>
+      <div class="city-name"><%= data.name %></div>
     </div>
 
     <div class="weather">
-      <div class="weather-icon"><img src='/stylesheets/img/weather.png' alt=""></div>
-      <div class="weather-disc"><%=data.weather[0].description%></div>
-
+      <div class="weather-icon">
+        <img
+          src="https://openweathermap.org/img/wn/<%= data.weather[0].icon %>@2x.png"
+          alt="<%= data.weather[0].description %>"
+        />
+      </div>
+      <div class="weather-disc"><%= data.weather[0].description %></div>
     </div>
   </div>
 
-  <%}else{%>
-  <div class='city'>
-    <%=error%>
+  <% if (showForecast && forecastDays && forecastDays.length) { %>
+  <section class="forecast" aria-label="5-day forecast">
+    <h2 class="forecast-title">5-day forecast</h2>
+    <ul class="forecast-list">
+      <% forecastDays.forEach(function (day) { %>
+      <li class="forecast-day">
+        <span class="forecast-day-label"><%= day.label %></span>
+        <img
+          class="forecast-day-icon"
+          src="https://openweathermap.org/img/wn/<%= day.icon %>@2x.png"
+          alt=""
+        />
+        <span class="forecast-day-desc"><%= day.description %></span>
+        <span class="forecast-day-temps">
+          <span class="forecast-day-high"><%= day.tempMax %>&deg;</span>
+          <span class="forecast-day-low"><%= day.tempMin %>&deg;</span>
+        </span>
+      </li>
+      <% }) %>
+    </ul>
+  </section>
+  <% } else if (!showForecast) { %>
+  <div class="forecast-toggle">
+    <a class="forecast-link" href="/results?<%= forecastQuery %>">
+      Want to know the forecast?
+    </a>
   </div>
-  <%}%>
+  <% } %>
+
+  <% } %>
+
   <div class="S">
-    <form action='/results' method='GET' class='S-search'>
-        <input type="text" name='city' autocomplete="off" class="S-search-box" placeholder="Search for a city" />
-        <button class='S-search-btn' type="submit">Search</button>
+    <button type="button" class="S-location-btn" data-use-location>
+      Use my location
+    </button>
+    <form action="/results" method="GET" class="S-search">
+      <input
+        type="text"
+        name="city"
+        autocomplete="off"
+        class="S-search-box"
+        placeholder="Search for a city"
+        value="<%= typeof searchCity !== 'undefined' ? searchCity : '' %>"
+      />
+      <button class="S-search-btn" type="submit">Search</button>
     </form>
   </div>
 
-  
-
 </div>
-    <!--<script src="app.js"></script>-->
 
+<%-include("partials/geolocation")%>
 <%-include("partials/footer")%>

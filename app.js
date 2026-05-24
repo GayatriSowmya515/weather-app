@@ -2,54 +2,115 @@ var express = require('express');
 var app = express();
 require('dotenv').config();
 
-var request = require('request');
-var bodyParser = require('body-parser');
-const date = require('date-and-time');
-
-const now = new Date();
-console.log(date.format(now, 'ddd, MMM DD YYYY'));
-console.log(date);
-
-app.use(bodyParser.urlencoded({ extended: true }));
+var {
+  getCurrentWeather,
+  getForecast,
+  aggregateFiveDayForecast,
+  getQueryForResults,
+} = require('./services/weather');
 
 app.use(express.static('public'));
-
-//to write home instead of home.ejs
 app.set('view engine', 'ejs');
 
+function parseCoords(lat, lon) {
+  const latitude = parseFloat(lat);
+  const longitude = parseFloat(lon);
+  if (
+    Number.isNaN(latitude) ||
+    Number.isNaN(longitude) ||
+    latitude < -90 ||
+    latitude > 90 ||
+    longitude < -180 ||
+    longitude > 180
+  ) {
+    return null;
+  }
+  return { lat: latitude, lon: longitude };
+}
+
+function getLocationParams(query) {
+  const city = typeof query.city === 'string' ? query.city.trim() : '';
+  if (city) {
+    return { city };
+  }
+
+  const coords = parseCoords(query.lat, query.lon);
+  if (coords) {
+    return coords;
+  }
+
+  return null;
+}
+
+function buildResultsQueryString(params, showForecast) {
+  const parts = [];
+  if (params.city) {
+    parts.push(`city=${encodeURIComponent(params.city)}`);
+  } else {
+    parts.push(`lat=${params.lat}`, `lon=${params.lon}`);
+  }
+  if (showForecast) {
+    parts.push('forecast=1');
+  }
+  return parts.join('&');
+}
+
+function renderSearchError(res, message) {
+  res.render('search', { error: message });
+}
+
 app.get('/', function (req, res) {
-  res.render('search');
+  res.render('search', { error: null });
 });
 
-app.get('/results', function (req, res) {
-  let city = req.query.city;
-  let api_id = process.env.API_KEY;
-  let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_id}`;
-  console.log(req.body.city);
-  console.log('0');
-  request(url, function (err, response, body) {
-    if (err) {
-      console.log('4');
-      res.render('search', { data: null, error: 'Error, please try again' });
-    } else {
-      console.log('5');
-      let data = JSON.parse(body);
-      if (data.main == undefined) {
-        console.log('6');
-        console.log(city);
-        res.render('search', {
-          data: null,
-          error: 'Error, please try again',
-        });
-      } else {
-        console.log('7');
-        res.render('result', { data: data, error: null });
-        console.log('body:', body);
-      }
+app.get('/results', async function (req, res) {
+  const location = getLocationParams(req.query);
+  const showForecast = req.query.forecast === '1';
+
+  if (!location) {
+    return renderSearchError(res, 'Please enter a city or use your location.');
+  }
+
+  if (!process.env.API_KEY) {
+    return renderSearchError(
+      res,
+      'API key is missing. Add API_KEY to your .env file.'
+    );
+  }
+
+  try {
+    const data = await getCurrentWeather(location);
+    const queryParams = getQueryForResults(data, req.query);
+    const resultsQuery = buildResultsQueryString(queryParams, false);
+    const forecastQuery = buildResultsQueryString(queryParams, true);
+
+    let forecastDays = null;
+    if (showForecast) {
+      const forecastData = await getForecast(queryParams);
+      forecastDays = aggregateFiveDayForecast(forecastData);
     }
-  });
+
+    res.render('result', {
+      data,
+      error: null,
+      showForecast,
+      forecastDays,
+      resultsQuery,
+      forecastQuery,
+      searchCity: queryParams.city || data.name,
+    });
+  } catch (err) {
+    let message = 'Could not load weather. Please try again.';
+    if (err.status === 404) {
+      message = 'City not found. Check the spelling and try again.';
+    } else if (err.message && err.message.includes('API_KEY')) {
+      message = err.message;
+    }
+    renderSearchError(res, message);
+  }
 });
 
-app.listen(3000, function () {
-  console.log('Server listening on port 3000');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, function () {
+  console.log(`Server listening on port ${PORT}`);
 });

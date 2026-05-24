@@ -1,0 +1,35 @@
+<script>
+  (function () {
+    function useMyLocation() {
+      if (!navigator.geolocation) {
+        alert('Geolocation is not supported by your browser.');
+        return;
+      }
+
+      var buttons = document.querySelectorAll('[data-use-location]');
+      buttons.forEach(function (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Getting location…';
+      });
+
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          var lat = position.coords.latitude;
+          var lon = position.coords.longitude;
+          window.location.href = '/results?lat=' + lat + '&lon=' + lon;
+        },
+        function () {
+          buttons.forEach(function (btn) {
+            btn.disabled = false;
+            btn.textContent = 'Use my location';
+          });
+          alert('Unable to get your location. Please allow location access or search by city.');
+        }
+      );
+    }
+
+    document.querySelectorAll('[data-use-location]').forEach(function (btn) {
+      btn.addEventListener('click', useMyLocation);
+    });
+  })();
+</script>
